@@ -1,24 +1,11 @@
-<?php
-// Подключаем базу данных и достаем 3 последние новости для главной страницы
-require __DIR__ . '/config.php';
-$news = [];
-try {
-    $news = db()->query('SELECT * FROM news ORDER BY id DESC LIMIT 3')->fetchAll();
-} catch (PDOException $ex) {
-    // Если таблицы нет или ошибка - просто не выводим новости
-}
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://loveandsweets.ru data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; object-src 'none'">
-
     <title>Десерт с логотипом заказать в Москве недорого с доставкой | Цены на брендированные десерты</title>
     <meta name="description" content="Десерты с логотипом — купить в семейной кондитерской ✅ Натуральная продукция ✅ Большой выбор авторских рецептов +7 499 322 00 20">
-    <link rel="canonical" href="https://loveandsweets.ru/corporative/">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -220,10 +207,10 @@ try {
     <!-- ================= ШАПКА САЙТА ================= -->
     <header class="header">
         <div class="container header__inner">
-            <a href="index.php" class="logo">Love&<span>Sweets</span></a>
+            <a href="index.html" class="logo">Love&<span>Sweets</span></a>
             <nav class="nav">
-                <a href="index.php" class="nav__link">Главная</a>
-                <a href="blog.php" class="nav__link">Блог</a>
+                <a href="index.html" class="nav__link">Главная</a>
+                <a href="#products" class="nav__link">Каталог</a>
                 <a href="#callback" class="nav__link">Контакты</a>
             </nav>
             <div class="header__cta">
@@ -240,7 +227,7 @@ try {
     <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
     <section class="hero">
         <div class="hero__bg">
-            <img src="file (1).jpg" alt="Белые торты с золотым декором">
+            <img src="fb2f54db2d9fb43ff31ba5e5bbc5daef.jpg" alt="Белые торты с золотым декором">
         </div>
         <div class="container hero__content">
             <div class="hero__badge">Для корпоративных клиентов</div>
@@ -279,26 +266,6 @@ try {
             </div>
         </div>
     </section>
-
-    <!-- ================= НОВОСТИ (Динамический блок) ================= -->
-    <?php if ($news): ?>
-    <section class="section" style="background: var(--light);">
-        <div class="container">
-            <h2 class="h2">Наши новости</h2>
-            <div class="products__grid" style="margin-top: 30px;">
-                <?php foreach ($news as $n): ?>
-                    <div class="product-card" style="padding: 24px; background: #fff;">
-                        <h3 class="product-card__title" style="color: var(--primary);"><?= e($n['title']) ?></h3>
-                        <p class="product-card__text" style="margin-top: 10px;"><?= nl2br(e($n['content'])) ?></p>
-                        <small style="color: #999; margin-top: 15px; display: block; font-size: 0.8rem;">
-                            <?= date('d.m.Y', strtotime($n['created_at'])) ?>
-                        </small>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-    <?php endif; ?>
 
     <!-- ================= СЕКЦИЯ ПРЕИМУЩЕСТВ ================= -->
     <section class="section features">
@@ -386,216 +353,4 @@ try {
                         <div class="form__group">
                             <label for="phone" class="form__label">Как с вами связаться</label>
                             <input type="tel" id="phone" name="phone" class="form__input" placeholder="+7 (___) ___-__-__" maxlength="18" autocomplete="tel" inputmode="tel" required>
-                            <div class="form__error" id="err-phone">Введите телефон полностью: +7 (900) 123-45-67.</div>
-                        </div>
-                        <div class="hp" aria-hidden="true">
-                            <label for="website">Не заполняйте это поле</label>
-                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-                        </div>
-                        <div class="form__checkbox">
-                            <input type="checkbox" id="consent" name="consent" required>
-                            <label for="consent">Я даю <a href="consent.html" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> и принимаю условия <a href="privacy.html" target="_blank" rel="noopener noreferrer">политики конфиденциальности</a></label>
-                        </div>
-                        <div class="form__error" id="err-consent" style="margin-top:-16px; margin-bottom:20px;">Для отправки заявки необходимо согласие на обработку персональных данных.</div>
-                        <button type="submit" class="btn btn--primary btn--large btn--full" id="submit-btn" disabled>Отправить заявку</button>
-                        <div class="form__hint" id="submit-hint">Кнопка станет активной после согласия на обработку персональных данных</div>
-                        <div class="form__success" id="form-success" role="status"></div>
-                        <div class="form__contacts">
-                            Либо свяжитесь с нами удобным способом: <br>
-                            <a href="tel:+74993220020">+7 499 322-00-20</a> / <a href="https://api.whatsapp.com/send?phone=79686227342" target="_blank" rel="noopener noreferrer">Whats’App</a> / <a href="https://t.me/loveandsweets" target="_blank" rel="noopener noreferrer">Telegram</a>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <img src="https://loveandsweets.ru/upload/iblock/663/fcly39azql4z6ryeq8kdy55advo7toif.jpg" alt="Десерты для мероприятий" style="border-radius: 24px; width: 100%; aspect-ratio: 3/4; object-fit: cover;" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= СЕКЦИЯ ОТЗЫВОВ ================= -->
-    <section class="section reviews">
-        <div class="container">
-            <h2 class="h2">Нам доверяют важные события</h2>
-            <p class="lead">Отзывы наших постоянных партнеров — ресторанов, ивент-агентств и крупных компаний.</p>
-            <div class="reviews__grid">
-                <div class="review-card">
-                    <div class="review-card__stars">★★★★★</div>
-                    <p class="review-card__text">«Заказывали брендированные эклеры с логотипом для годовой конференции. Все гости были в восторге! Очень удобно, что можно было нанести логотип прямо на глазурь.»</p>
-                    <div class="review-card__author"><div class="review-card__avatar">ЕС</div><div><div class="review-card__name">Екатерина Смирнова</div><div class="review-card__company">Event-агентство «Праздник»</div></div></div>
-                </div>
-                <div class="review-card">
-                    <div class="review-card__stars">★★★★★</div>
-                    <p class="review-card__text">«Долго искали кондитеров, которые смогут сделать прозрачные леденцы с цветами внутри для презентации нашего нового парфюма. Love&Sweets справились на 100%!»</p>
-                    <div class="review-card__author"><div class="review-card__avatar">АИ</div><div><div class="review-card__name">Алексей Иванов</div><div class="review-card__company">PR-директор, Beauty Brand</div></div></div>
-                </div>
-                <div class="review-card">
-                    <div class="review-card__stars">★★★★★</div>
-                    <p class="review-card__text">«Отличная работа менеджеров! Помогли подобрать десерты под наш бюджет, сделали красивый макет торта с логотипом компании и доставили минута в минуту.»</p>
-                    <div class="review-card__author"><div class="review-card__avatar">МП</div><div><div class="review-card__name">Мария Петрова</div><div class="review-card__company">Ресторан «Гастрономика»</div></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= ПОДВАЛ САЙТА ================= -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div>
-                    <div class="footer__brand">Love&<span>Sweets</span></div>
-                    <p class="footer__text">Мы выбрали говорить с миром одним из самых вкусных способов. Семейная кондитерская «Любовь и сладости».</p>
-                </div>
-                <div>
-                    <div class="footer__title">Меню</div>
-                    <div class="footer__links">
-                        <a href="index.php">Главная</a>
-                        <a href="blog.php">Блог</a>
-                        <a href="#callback">Контакты</a>
-                        <a href="admin.php">Админ-панель</a>
-                    </div>
-                </div>
-                <div>
-                    <div class="footer__title">Контакты</div>
-                    <div class="footer__links">
-                        <a href="tel:+74993220020">+7 499 322-00-20</a>
-                        <a href="mailto:zakaz.loveandsweets@gmail.com">zakaz.loveandsweets@gmail.com</a>
-                        <a href="https://t.me/loveandsweets" target="_blank" rel="noopener noreferrer">Telegram</a>
-                        <a href="https://vk.com/loveandsweets" target="_blank" rel="noopener noreferrer">Вконтакте</a>
-                        <a href="https://www.instagram.com/love__and__sweets" target="_blank" rel="noopener noreferrer">Instagram*</a>
-                        <p class="footer__disclaimer">*Деятельность организации запрещена на территории РФ</p>
-                    </div>
-                </div>
-            </div>
-            <div class="footer__bottom">
-                <span>© 2023 Любовь и сладости. Все права защищены.</span>
-                <span><a href="privacy.html" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a></span>
-                <span><a href="consent.html" target="_blank" rel="noopener noreferrer">Согласие на обработку персональных данных</a></span>
-                <span><a href="https://loveandsweets.ru/upload/agreement.pdf" target="_blank" rel="noopener noreferrer">Пользовательское соглашение</a></span>
-                <span>Разработано в sēns.collective</span>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ================= СКРИПТЫ ================= -->
-     <script>
-        document.querySelector('.burger')?.addEventListener('click', function () {
-            alert('Для полноценной работы мобильного меню требуется выезжающая панель.');
-        });
-
-        (function () {
-            const form = document.getElementById('feedback-form');
-            if (!form) return;
-
-            const btn = document.getElementById('submit-btn');
-            const hint = document.getElementById('submit-hint');
-            const consent = document.getElementById('consent');
-            const phone = document.getElementById('phone');
-            const success = document.getElementById('form-success');
-
-            const clean = (text) => text.trim().replace(/[<>]/g, '');
-
-            function setError(fieldId, errId, hasError) {
-                document.getElementById(fieldId).classList.toggle('invalid', hasError);
-                document.getElementById(errId).classList.toggle('show', hasError);
-            }
-
-            function updateButton() {
-                btn.disabled = !consent.checked;
-                hint.style.display = consent.checked ? 'none' : 'block';
-                document.getElementById('err-consent').classList.toggle('show', false);
-            }
-            consent.addEventListener('change', function () {
-                updateButton();
-                if (!consent.checked) document.getElementById('err-consent').classList.add('show');
-            });
-            updateButton();
-
-            phone.addEventListener('input', function () {
-                let d = phone.value.replace(/\D/g, '');
-                if (d[0] === '7' || d[0] === '8') d = d.slice(1);
-                d = d.slice(0, 10);
-                let out = '';
-                if (d.length) out = '+7 (' + d.slice(0, 3);
-                if (d.length >= 3) out += ') ' + d.slice(3, 6);
-                if (d.length >= 6) out += '-' + d.slice(6, 8);
-                if (d.length >= 8) out += '-' + d.slice(8, 10);
-                phone.value = out;
-            });
-
-            function validate() {
-                let ok = true;
-                const event = document.getElementById('event-type');
-                const eventBad = !event.value;
-                setError('event-type', 'err-event', eventBad);
-
-                const products = document.getElementById('products-desc');
-                const productsBad = clean(products.value).length < 3;
-                setError('products-desc', 'err-products', productsBad);
-
-                const wishes = document.getElementById('wishes');
-                const wishesBad = wishes.value.length > 1000;
-                setError('wishes', 'err-wishes', wishesBad);
-
-                const name = document.getElementById('name');
-                const nameBad = !/^[A-Za-zА-Яа-яЁё\s'\-]{2,60}$/.test(clean(name.value));
-                setError('name', 'err-name', nameBad);
-
-                const phoneBad = phone.value.replace(/\D/g, '').length !== 11;
-                setError('phone', 'err-phone', phoneBad);
-
-                return !(eventBad || productsBad || wishesBad || nameBad || phoneBad);
-            }
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                if (!consent.checked) {
-                    document.getElementById('err-consent').classList.add('show');
-                    return;
-                }
-                if (document.getElementById('website').value !== '') return;
-                if (!validate()) return;
-
-                const data = {
-                    event_type: document.getElementById('event-type').value,
-                    products_desc: clean(document.getElementById('products-desc').value),
-                    wishes: clean(document.getElementById('wishes').value),
-                    name: clean(document.getElementById('name').value),
-                    phone: phone.value
-                };
-
-                success.textContent = 'Отправка...';
-                success.classList.add('show');
-                success.style.color = '#1E6B30';
-
-                fetch('submit.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        ...data,
-                        consent: '1',
-                        website: ''
-                    })
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.ok) {
-                        success.textContent = 'Спасибо, ' + data.name + '! Заявка принята, менеджер свяжется с вами.';
-                        form.reset();
-                        updateButton();
-                    } else {
-                        success.textContent = 'Ошибка: ' + result.error;
-                        success.style.color = '#D93025';
-                    }
-                })
-                .catch(error => {
-                    success.textContent = 'Ошибка сети. Проверьте подключение и попробуйте позже.';
-                    success.style.color = '#D93025';
-                });
-            });
-        })();
-    </script>
-</body>
-</html>
+                            <div class="form__
